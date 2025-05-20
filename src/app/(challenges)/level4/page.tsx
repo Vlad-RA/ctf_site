@@ -22,7 +22,7 @@ const Page = () => {
 
   // This flag is for the OLD buffer overflow challenge.
   const flag = "flag{YezHapTGTouUAxjmBeTWovGMYCwndUjcaNCS}";
-  const newQuestion = "Which famous musical event, held annually in Europe, in the 1990s was unofficially nicknamed \"Buffer Overflow\" (BOF), due to the number of simultaneously broadcasting pirate radio stations on the air near the venue?";
+  const newQuestion = "Какое известное музыкальное мероприятие, проходящее ежегодно в Европе, в 1990-х годах носило неофициальное прозвище \"Buffer Overflow\" (BOF), из-за количества одновременно вещающих пиратских радиостанций в эфире рядом с местом проведения?";
 
   // This handleChange is tied to the OLD buffer overflow logic.
   // It will still trigger if more than 500 characters are entered.
