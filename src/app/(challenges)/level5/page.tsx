@@ -30,7 +30,7 @@ const Page = () => {
     if (malwareName.trim() === correctMalwareName) {
       setIsFlagModalOpen(true);
     } else {
-      setError("Incorrect malware name."); // Simplified error
+      setError("Incorrect name."); // Simplified error
     }
   };
 
@@ -51,11 +51,12 @@ const Page = () => {
           <CardContent className="space-y-6">
             <div className="p-4 bg-muted rounded-lg shadow-inner">
               <p className="text-lg text-foreground mb-3">
-                Examine the VirusTotal report for the following (simulated){' '}
+                В 1999 году в мире впервые массово распространился компьютерный вирус, использовавший вектор атаки через электронную почту, написанный на Visual Basic Script и замаскированный под письмо с вложением под названием "Important Message". Вирус активировался при открытии вложенного файла LOVE-LETTER-FOR-YOU.txt.vbs и немедленно начинал перезаписывать файлы, включая музыкальные (MP3) и графические (JPG), а затем отправлял себя по адресной книге Microsoft Outlook. Его всплеск пришёлся на утро 4 мая и вызвал миллиардные убытки, парализовав правительства, СМИ, банки и корпорации по всему миру. В течение суток он затронул миллионы машин, став одним из самых разрушительных {' '} 
                 <Link href={virusTotalLink} target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline font-medium">
-                  sample
+                вирусов 
                 </Link>
-                :
+                . Расследование показало, что вирус был создан студентом из Манилы, который, согласно утверждениям некоторых источников, использовал код, заимствованный у другого вируса под названием "Happy99", но придал ему более "романтичную" форму, отражающую фрустрации автора в любви.
+                Какое название носил этот вирус, если его «письмо любви» стало одним из самых разрушительных в истории?
               </p>
                {/* Note removed 
                <p className="text-xs text-muted-foreground mt-2 text-center">
@@ -72,7 +73,7 @@ const Page = () => {
                   type="text"
                   value={malwareName}
                   onChange={(e) => setMalwareName(e.target.value)}
-                  placeholder="e.g., Trojan.Variant.123"
+                  placeholder="Enter Your Answer"
                   className="text-lg p-3 bg-input border-border focus:ring-accent"
                   aria-label="Malware Name"
                 />
