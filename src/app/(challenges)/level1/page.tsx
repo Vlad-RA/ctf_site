@@ -1,0 +1,109 @@
+
+"use client";
+
+import type React from 'react';
+import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import FlagModal from "@/components/ctf/FlagModal";
+import HintSystem from "@/components/ctf/HintSystem";
+import LevelHeader from "@/components/ctf/LevelHeader";
+import { FileCode, LogIn } from 'lucide-react';
+
+const Page = () => {
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
+
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    // <!-- login: admin -->
+    // <!-- password: pa$$w0rd -->
+    if (username === "admin" && password === "pa$$w0rd") {
+      setIsFlagModalOpen(true);
+    } else {
+      setError("Invalid credentials. Did you check everywhere?");
+    }
+  };
+
+  const challengeDescription = "The user needs to find credentials hidden somewhere on this page. The login form is right here, but where are the details to log in? Sometimes developers leave notes in unexpected places.";
+  const playerProgress = () => `Attempted username: ${username}, Attempted password: ${password.length > 0 ? '******' : '(empty)'}`;
+
+
+  return (
+    <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
+      {/* These comments are part of the challenge */}
+      {/* login: admin */}
+      {/* password: pa$$w0rd */}
+      <LevelHeader level={1} title="The Hidden Note" icon={FileCode} />
+      <div className="flex-grow flex items-center justify-center">
+        <Card className="w-full max-w-md shadow-2xl animate-slide-in bg-card border-border">
+          <CardHeader>
+            <CardTitle className="text-3xl font-bold text-center text-primary">Secure Portal Access</CardTitle>
+            <CardDescription className="text-center text-muted-foreground pt-2">
+              Only authorized personnel may proceed.
+              Find the credentials to unlock the next level.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="username" className="text-lg text-foreground">Username</Label>
+                <Input
+                  id="username"
+                  ref={usernameRef}
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter username"
+                  className="text-lg p-3 bg-input border-border focus:ring-accent"
+                  aria-label="Username"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-lg text-foreground">Password</Label>
+                <Input
+                  id="password"
+                  ref={passwordRef}
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                  className="text-lg p-3 bg-input border-border focus:ring-accent"
+                  aria-label="Password"
+                />
+              </div>
+              {error && <p className="text-destructive text-center font-medium animate-subtle-pulse">{error}</p>}
+              <Button type="submit" className="w-full text-lg py-3 bg-primary hover:bg-primary/90 text-primary-foreground" aria-label="Login">
+                <LogIn className="mr-2 h-5 w-5" /> Access
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter>
+            <p className="text-xs text-muted-foreground text-center w-full">
+              Hint: Web developers sometimes leave comments in the source code.
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
+      <FlagModal
+        isOpen={isFlagModalOpen}
+        onClose={() => setIsFlagModalOpen(false)}
+        flag="flag{abcd//1234}"
+        nextLevelUrl="/level2"
+      />
+      <HintSystem challengeDescription={challengeDescription} level={1} playerProgressProvider={playerProgress} />
+    </div>
+  );
+};
+
+export default Page;
