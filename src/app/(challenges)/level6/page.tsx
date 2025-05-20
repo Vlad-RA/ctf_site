@@ -39,8 +39,8 @@ const Page = () => {
       if (i === 73) { // Place the target log entry at a specific index
         return `8.8.8.8 - login=admin&password=pa$$w0rd - /flag_request - timestamp=${new Date().toISOString()}`;
       }
-      const પાણી = i % 5 === 0 ? `login=${generateRandomUser()}&password=${Math.random().toString(36).substring(7)}` : `user=${generateRandomUser()}`;
-      return `${generateRandomIp()} - ${पानी} - ${generateRandomPath()} - timestamp=${new Date(Date.now() - Math.random()*100000000).toISOString()}`;
+      const authDetail = i % 5 === 0 ? `login=${generateRandomUser()}&password=${Math.random().toString(36).substring(7)}` : `user=${generateRandomUser()}`;
+      return `${generateRandomIp()} - ${authDetail} - ${generateRandomPath()} - timestamp=${new Date(Date.now() - Math.random()*100000000).toISOString()}`;
     }).join("\n");
     setLogEntries(generatedLogs);
   }, []);
