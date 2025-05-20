@@ -1,0 +1,18 @@
+Level 1:
+Username: admin
+Password: pa$$w0rd
+
+Level 2:
+Access Key: accesskey-94831
+
+Level 3:
+Answer: (92E0:D09:556?0:?D:56)
+
+Level 4:
+Input: Any string longer than 500 characters (e.g., a string of 501 'A's).
+
+Level 5:
+Malware Name: Trojan.Malware.300983.susgen
+
+Level 6:
+IP Address: 8.8.8.8
