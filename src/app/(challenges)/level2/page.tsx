@@ -38,10 +38,10 @@ const Page = () => {
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
       <LevelHeader level={2} title="" icon={Inspect} /> {/* Title removed */}
+      {/* This div contains the hidden access key in its class name */}
+      <div className="accesskey-94831 w-0 h-0 overflow-hidden" aria-hidden="true"></div>
+      
       <div className="flex-grow flex items-center justify-center">
-        {/* This div contains the hidden access key in its class name */}
-        <div className="accesskey-94831 w-0 h-0 overflow-hidden" aria-hidden="true"></div>
-
         <Card className="w-full max-w-md shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
             <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
