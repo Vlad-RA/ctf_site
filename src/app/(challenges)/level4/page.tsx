@@ -59,7 +59,7 @@ const Page = () => {
     
     // Since the old logic in handleChange might show the flag, this submit might be confusing
     // We need the actual answer to implement this properly.
-    setError("Answer checking for this question is not yet implemented."); 
+    setError("Данный ответ не подходит."); 
   };
 
 
@@ -96,9 +96,9 @@ const Page = () => {
                   type="text"
                   value={inputValue}
                   onChange={handleChange} // Still uses the old handleChange for overflow
-                  placeholder="Enter your answer"
+                  placeholder=""
                   className="text-lg p-3 bg-input border-border focus:ring-accent"
-                  aria-label="Your Answer"
+                  aria-label="Введи свой ответ"
                   disabled={isOverflowed} // Still disabled if overflow triggered
                 />
               </div>
