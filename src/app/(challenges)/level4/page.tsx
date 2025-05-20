@@ -89,16 +89,16 @@ const Page = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="answerInput" className="text-lg text-foreground">Your Answer</Label>
+                <Label htmlFor="answerInput" className="text-lg text-foreground">Answer</Label>
                 <Input
                   id="answerInput"
                   ref={inputRef}
                   type="text"
                   value={inputValue}
                   onChange={handleChange} // Still uses the old handleChange for overflow
-                  placeholder=""
+                  placeholder="Enter Your Answer"
                   className="text-lg p-3 bg-input border-border focus:ring-accent"
-                  aria-label="Введи свой ответ"
+                  aria-label="Answer"
                   disabled={isOverflowed} // Still disabled if overflow triggered
                 />
               </div>
