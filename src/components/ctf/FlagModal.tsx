@@ -8,7 +8,7 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  // AlertDialogTitle, // Removed
+  AlertDialogTitle, // Added AlertDialogTitle import
   // AlertDialogDescription, // Removed
 } from "@/components/ui/alert-dialog";
 // import { Button } from "@/components/ui/button"; // Not used directly
@@ -47,7 +47,8 @@ const FlagModal: React.FC<FlagModalProps> = ({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="bg-card border-border shadow-xl animate-slide-in">
         <AlertDialogHeader>
-          {/* Title and Description removed to be minimal */}
+          <AlertDialogTitle className="sr-only">Challenge Complete</AlertDialogTitle> {/* Added visually hidden title */}
+          {/* Description removed to be minimal */}
         </AlertDialogHeader>
         <div className="my-6 p-4 bg-muted rounded-lg text-center">
           <p className="font-mono text-xl text-accent-foreground bg-accent py-3 px-2 rounded select-all break-all shadow-inner">
