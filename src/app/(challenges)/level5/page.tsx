@@ -22,7 +22,7 @@ const Page = () => {
   const malwareNameRef = useRef<HTMLInputElement>(null);
 
   const correctMalwareName = "Trojan.Malware.300983.susgen";
-  const virusTotalLink = "https://www.virustotal.com/gui/file/e0b98009110010400100009e983200e9f/detection";
+  const virusTotalLink = "https://www.virustotal.com/gui/file/47d42f94fa3f1e8398978ba4b718f35a9016e642ffea420a06f6c780ac958755/detection";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
