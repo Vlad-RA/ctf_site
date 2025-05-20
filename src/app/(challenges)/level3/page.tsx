@@ -12,7 +12,7 @@ import FlagModal from "@/components/ctf/FlagModal";
 // import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
 import { Globe, Search } from 'lucide-react';
-import Image from 'next/image'; // Image will be removed
+// import Image from 'next/image'; // Image will be removed
 
 const Page = () => {
   const router = useRouter();
@@ -21,7 +21,9 @@ const Page = () => {
   const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
   const answerRef = useRef<HTMLInputElement>(null);
 
-  const correctAnswer = "(92E0:D09:556?0:?D:56)";
+  const correctAnswer = "hunter2";
+  const osintQuestion = "<Cthon98>: hey, if you type in your pw, it will show as stars";
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,8 +35,6 @@ const Page = () => {
     }
   };
   
-  const osintQuestion = "This challenge involves a bit of Open Source Intelligence (OSINT). You're looking for a specific cryptic value. It's often associated with deep space observations and has a peculiar format including colons, question marks, and hexadecimal characters. What is this value?";
-
   // const challengeDescription = "This is an OSINT (Open Source Intelligence) challenge. The user needs to find an answer to a question using external resources. The question is: '" + osintQuestion + "'"; // Removed
   // const playerProgress = () => `Attempted answer: ${answer}`; // Removed
 
@@ -52,7 +52,7 @@ const Page = () => {
           <CardContent className="space-y-6">
             <div className="p-4 bg-muted rounded-lg shadow-inner">
               {/* "Your Mission" text removed for minimalism */}
-              <p className="text-md text-foreground">
+              <p className="text-md text-foreground font-mono">
                 {osintQuestion}
               </p>
               {/* Image removed for minimalism 
@@ -75,7 +75,7 @@ const Page = () => {
                   type="text"
                   value={answer}
                   onChange={(e) => setAnswer(e.target.value)}
-                  placeholder="Enter the cryptic value"
+                  placeholder="Enter the answer"
                   className="text-lg p-3 bg-input border-border focus:ring-accent"
                   aria-label="OSINT Answer"
                 />

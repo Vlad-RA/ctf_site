@@ -6,7 +6,7 @@ Level 2:
 Access Key: accesskey-94831
 
 Level 3:
-Answer: (92E0:D09:556?0:?D:56)
+Answer: hunter2
 
 Level 4:
 Input: Any string longer than 500 characters (e.g., a string of 501 'A's).
