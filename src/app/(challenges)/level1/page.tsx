@@ -93,7 +93,7 @@ const Page = () => {
       <FlagModal
         isOpen={isFlagModalOpen}
         onClose={() => setIsFlagModalOpen(false)}
-        flag="flag{abcd//1234}"
+        flag="flag{adminpa$$w0rd}"
         nextLevelUrl="/level2"
       />
     </div>
