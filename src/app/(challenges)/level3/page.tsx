@@ -2,17 +2,17 @@
 "use client";
 
 import type React from 'react';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
-// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
 import { Globe, Search } from 'lucide-react';
-// import Image from 'next/image'; // Image will be removed
+
+const CURRENT_LEVEL = 3;
 
 const Page = () => {
   const router = useRouter();
@@ -24,6 +24,16 @@ const Page = () => {
   const correctAnswer = "hunter2";
   const osintQuestion = "<Cthon98>: hey, if you type in your pw, it will show as stars";
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const maxLevelReachedString = localStorage.getItem('prtclMaxLevelReached');
+      const maxLevelReached = maxLevelReachedString ? parseInt(maxLevelReachedString, 10) : 1;
+
+      if (CURRENT_LEVEL > maxLevelReached) {
+        router.replace(`/level${maxLevelReached}`);
+      }
+    }
+  }, [router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,40 +41,25 @@ const Page = () => {
     if (answer.trim() === correctAnswer) {
       setIsFlagModalOpen(true);
     } else {
-      setError("Incorrect answer."); // Simplified error
+      setError("Incorrect answer.");
     }
   };
   
-  // const challengeDescription = "This is an OSINT (Open Source Intelligence) challenge. The user needs to find an answer to a question using external resources. The question is: '" + osintQuestion + "'"; // Removed
-  // const playerProgress = () => `Attempted answer: ${answer}`; // Removed
-
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
-      <LevelHeader level={3} title="" icon={Globe} /> {/* Title removed */}
+      <LevelHeader level={3} title="" icon={Globe} />
       <div className="flex-grow flex items-center justify-center">
         <Card className="w-full max-w-lg shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
+            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle>
             <CardDescription className="text-center text-muted-foreground pt-2">
-              {/* Description content removed */}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="p-4 bg-muted rounded-lg shadow-inner">
-              {/* "Your Mission" text removed for minimalism */}
               <p className="text-md text-foreground font-mono">
                 {osintQuestion}
               </p>
-              {/* Image removed for minimalism 
-              <Image 
-                src="https://placehold.co/600x300.png" 
-                alt="Abstract representation of data or space" 
-                width={600} 
-                height={300} 
-                className="mt-4 rounded-md shadow-md object-cover w-full"
-                data-ai-hint="galaxy space"
-              />
-              */}
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -87,7 +82,6 @@ const Page = () => {
             </form>
           </CardContent>
           <CardFooter>
-            {/* Hint removed */}
           </CardFooter>
         </Card>
       </div>
@@ -97,7 +91,6 @@ const Page = () => {
         flag={`flag{${correctAnswer}}`}
         nextLevelUrl="/level4"
       />
-      {/* <HintSystem challengeDescription={challengeDescription} level={3} playerProgressProvider={playerProgress} /> Removed */}
     </div>
   );
 };

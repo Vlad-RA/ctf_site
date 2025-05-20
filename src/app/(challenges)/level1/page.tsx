@@ -2,7 +2,7 @@
 "use client";
 
 import type React from 'react';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import FlagModal from "@/components/ctf/FlagModal";
 import LevelHeader from "@/components/ctf/LevelHeader";
 import { LogIn, FileCode } from 'lucide-react';
+
+const CURRENT_LEVEL = 1;
 
 const Page = () => {
   const router = useRouter();
@@ -22,13 +24,20 @@ const Page = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const maxLevelReachedString = localStorage.getItem('prtclMaxLevelReached');
+      const maxLevelReached = maxLevelReachedString ? parseInt(maxLevelReachedString, 10) : 1;
+
+      if (CURRENT_LEVEL > maxLevelReached) {
+        router.replace(`/level${maxLevelReached}`);
+      }
+    }
+  }, [router]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    // Developer note: The credentials below are intentionally in HTML comments on the page for the CTF challenge.
-    // Actual credentials to check against:
-    // login: admin
-    // password: pa$$w0rd
     if (username === "admin" && password === "pa$$w0rd") {
       setIsFlagModalOpen(true);
     } else {
@@ -38,7 +47,6 @@ const Page = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
-      {/* These HTML comments are part of the challenge, findable in browser's "View Source" or "Inspect Element" */}
       <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: `
         <!-- login: admin -->
         <!-- password: pa$$w0rd -->

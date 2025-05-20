@@ -2,8 +2,7 @@
 "use client";
 
 import type React from 'react';
-import { useState, useRef } // useEffect removed
-from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,9 +10,10 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FlagModal from "@/components/ctf/FlagModal";
-// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
 import { FileText, Network } from 'lucide-react';
+
+const CURRENT_LEVEL = 6;
 
 const staticLogEntries = `[2025-05-03 10:00:00] 192.168.1.15 - - "POST /login HTTP/1.1" 401 364 "-" "Mozilla/5.0"
 [2025-05-03 10:00:03] 185.234.12.99 - - "POST /login HTTP/1.1" 401 309 "-" "curl/7.58.0"
@@ -611,7 +611,7 @@ const staticLogEntries = `[2025-05-03 10:00:00] 192.168.1.15 - - "POST /login HT
 [2025-05-03 11:02:17] 192.168.1.15 - - "POST /login HTTP/1.1" 401 342 "-" "Mozilla/5.0"
 [2025-05-03 11:02:20] 103.245.219.98 - - "POST /login HTTP/1.1" 401 342 "-" "curl/7.68.0"
 [2025-05-03 11:02:23] 185.234.12.99 - - "POST /login HTTP/1.1" 401 342 "-" "sqlmap/1.4.11"
-[2025-05-03 11:02:26] 168.8.8.8 - - "GET /admin HTTP/1.1" 403 274 "-" "Mozilla/5.0"
+[2025-05-03 11:02:26] 8.8.8.8 - - "GET /admin HTTP/1.1" 403 274 "-" "Mozilla/5.0"
 [2025-05-03 11:02:29] 203.0.113.42 - - "POST /login HTTP/1.1" 401 342 "-" "python-requests/2.25.1"
 [2025-05-03 11:02:32] 185.66.99.10 - - "POST /login HTTP/1.1" 401 342 "-" "curl/7.68.0"
 [2025-05-03 11:02:35] 185.25.204.78 - - "POST /login HTTP/1.1" 401 342 "-" "python-urllib/3.9"
@@ -640,11 +640,20 @@ const Page = () => {
   const [error, setError] = useState("");
   const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
   const ipAddressRef = useRef<HTMLInputElement>(null);
-  const [logEntries, setLogEntries] = useState(staticLogEntries); // Use static logs
+  const [logEntries, setLogEntries] = useState(staticLogEntries); 
 
-  const correctIpAddress = "8.8.8.8"; // This IP is present in the static logs
+  const correctIpAddress = "8.8.8.8";
 
-  // useEffect to set logs removed as they are now static
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const maxLevelReachedString = localStorage.getItem('prtclMaxLevelReached');
+      const maxLevelReached = maxLevelReachedString ? parseInt(maxLevelReachedString, 10) : 1;
+
+      if (CURRENT_LEVEL > maxLevelReached) {
+        router.replace(`/level${maxLevelReached}`);
+      }
+    }
+  }, [router]);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -710,5 +719,3 @@ const Page = () => {
 };
 
 export default Page;
-
-    

@@ -8,35 +8,53 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle, // Added AlertDialogTitle import
-  // AlertDialogDescription, // Removed
+  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-// import { Button } from "@/components/ui/button"; // Not used directly
 import { useRouter } from "next/navigation";
-// import { CheckCircle } from 'lucide-react'; // Removed
 
 interface FlagModalProps {
   isOpen: boolean;
   onClose: () => void;
   flag: string;
-  nextLevelUrl: string | null; // Null for the last level
-  title?: string; // Make title optional as it might not be used
+  nextLevelUrl: string | null;
+  title?: string;
 }
+
+const TOTAL_LEVELS = 6; // Define the total number of levels
 
 const FlagModal: React.FC<FlagModalProps> = ({
   isOpen,
   onClose,
   flag,
   nextLevelUrl,
-  title, // Title is passed but not rendered in header
+  title,
 }) => {
   const router = useRouter();
 
   const handleProceed = () => {
     onClose();
+
+    let levelToMarkAsReachable;
+    if (nextLevelUrl === '/congratulations') {
+      levelToMarkAsReachable = TOTAL_LEVELS + 1; // Special value for congratulations page
+    } else if (nextLevelUrl) {
+      const match = nextLevelUrl.match(/\/level(\d+)/);
+      if (match && match[1]) {
+        levelToMarkAsReachable = parseInt(match[1], 10);
+      }
+    }
+
+    if (levelToMarkAsReachable && typeof window !== 'undefined') { // Ensure localStorage is available
+      const currentMaxStoredLevel = parseInt(localStorage.getItem('prtclMaxLevelReached') || '1', 10);
+      if (levelToMarkAsReachable > currentMaxStoredLevel) {
+        localStorage.setItem('prtclMaxLevelReached', levelToMarkAsReachable.toString());
+      }
+    }
+
     if (nextLevelUrl) {
       router.push(nextLevelUrl);
     } else {
+      // Fallback if nextLevelUrl is null, though typically it should be /congratulations for the last level
       router.push('/congratulations');
     }
   };
@@ -47,8 +65,7 @@ const FlagModal: React.FC<FlagModalProps> = ({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="bg-card border-border shadow-xl animate-slide-in">
         <AlertDialogHeader>
-          <AlertDialogTitle className="sr-only">Challenge Complete</AlertDialogTitle> {/* Added visually hidden title */}
-          {/* Description removed to be minimal */}
+          <AlertDialogTitle className="sr-only">Challenge Complete</AlertDialogTitle>
         </AlertDialogHeader>
         <div className="my-6 p-4 bg-muted rounded-lg text-center">
           <p className="font-mono text-xl text-accent-foreground bg-accent py-3 px-2 rounded select-all break-all shadow-inner">
@@ -59,7 +76,7 @@ const FlagModal: React.FC<FlagModalProps> = ({
           <AlertDialogAction
             onClick={handleProceed}
             className="w-full bg-accent text-accent-foreground hover:bg-accent/90 text-lg py-3"
-            aria-label="Proceed" // Changed from "Proceed to next level"
+            aria-label="Proceed"
           >
             OK
           </AlertDialogAction>
@@ -70,4 +87,3 @@ const FlagModal: React.FC<FlagModalProps> = ({
 };
 
 export default FlagModal;
-

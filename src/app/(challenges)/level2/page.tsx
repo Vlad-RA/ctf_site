@@ -2,16 +2,17 @@
 "use client";
 
 import type React from 'react';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
-// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
 import { KeyRound, Inspect } from 'lucide-react';
+
+const CURRENT_LEVEL = 2;
 
 const Page = () => {
   const router = useRouter();
@@ -22,31 +23,37 @@ const Page = () => {
 
   const correctAccessKey = "accesskey-94831";
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const maxLevelReachedString = localStorage.getItem('prtclMaxLevelReached');
+      const maxLevelReached = maxLevelReachedString ? parseInt(maxLevelReachedString, 10) : 1;
+
+      if (CURRENT_LEVEL > maxLevelReached) {
+        router.replace(`/level${maxLevelReached}`);
+      }
+    }
+  }, [router]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     if (accessKey === correctAccessKey) {
       setIsFlagModalOpen(true);
     } else {
-      setError("Incorrect access key."); // Simplified error
+      setError("Incorrect access key.");
     }
   };
 
-  // const challengeDescription = "The user is looking for an access key. It's not always directly visible. Sometimes information is embedded in the page's structure, like in HTML attributes or class names."; // Removed
-  // const playerProgress = () => `Attempted access key: ${accessKey}`; // Removed
-
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
-      <LevelHeader level={2} title="" icon={Inspect} /> {/* Title removed */}
-      {/* This div contains the hidden access key in its class name */}
+      <LevelHeader level={2} title="" icon={Inspect} />
       <div className="accesskey-94831 w-0 h-0 overflow-hidden" aria-hidden="true"></div>
       
       <div className="flex-grow flex items-center justify-center">
         <Card className="w-full max-w-md shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
+            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle>
             <CardDescription className="text-center text-muted-foreground pt-2">
-              {/* Description content removed */}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -71,7 +78,6 @@ const Page = () => {
             </form>
           </CardContent>
           <CardFooter>
-            {/* Hint removed */}
           </CardFooter>
         </Card>
       </div>
@@ -81,7 +87,6 @@ const Page = () => {
         flag="flag{accesskey-94831}"
         nextLevelUrl="/level3"
       />
-      {/* <HintSystem challengeDescription={challengeDescription} level={2} playerProgressProvider={playerProgress} /> Removed */}
     </div>
   );
 };

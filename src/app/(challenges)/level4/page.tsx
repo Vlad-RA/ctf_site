@@ -10,56 +10,59 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
 import LevelHeader from "@/components/ctf/LevelHeader";
-import { AlertTriangle, Bomb, Check } from 'lucide-react'; // Added Check
+import { AlertTriangle, Bomb, Check } from 'lucide-react';
+
+const CURRENT_LEVEL = 4;
 
 const Page = () => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
-  const [isOverflowed, setIsOverflowed] = useState(false); // This state is for the old buffer overflow logic
+  const [isOverflowed, setIsOverflowed] = useState(false);
   const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
-  const [error, setError] = useState(""); // Added for new answer checking
+  const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // This flag is for the OLD buffer overflow challenge.
-  const flag = "flag{YezHapTGTouUAxjmBeTWovGMYCwndUjcaNCS}";
+  const flag = "flag{YezHapTGTouUAxjmBeTWovGMYCwndUjcaNCS}"; // This is still the OLD flag
   const newQuestion = "Какое известное музыкальное мероприятие, проходящее ежегодно в Европе, в 1990-х годах носило неофициальное прозвище \"Buffer Overflow\" (BOF), из-за количества одновременно вещающих пиратских радиостанций в эфире рядом с местом проведения?";
 
-  // This handleChange is tied to the OLD buffer overflow logic.
-  // It will still trigger if more than 500 characters are entered.
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const maxLevelReachedString = localStorage.getItem('prtclMaxLevelReached');
+      const maxLevelReached = maxLevelReachedString ? parseInt(maxLevelReachedString, 10) : 1;
+
+      if (CURRENT_LEVEL > maxLevelReached) {
+        router.replace(`/level${maxLevelReached}`);
+      }
+    }
+  }, [router]);
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
-    setError(""); // Clear error on new input
+    setError(""); 
 
-    // Old buffer overflow logic - will still trigger the flag modal
     if (value.length > 500 && !isOverflowed) {
-      setIsOverflowed(true); // This state causes visual changes related to overflow
+      setIsOverflowed(true); 
       setTimeout(() => {
-        setIsFlagModalOpen(true); // Shows the OLD flag
+        setIsFlagModalOpen(true); 
       }, 500);
-    } else if (value.length <= 500 && isOverflowed) {
-      // setIsOverflowed(false); // Challenge implies one-way overflow
     }
   };
   
   useEffect(() => {
-    // This effect is for the OLD buffer overflow visual feedback.
     if (isOverflowed) {
       document.body.classList.add('overflow-simulation-active');
       return () => document.body.classList.remove('overflow-simulation-active');
     }
   }, [isOverflowed]);
 
-  // Placeholder for new answer submission logic
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // This is where you'd check inputValue against the correct trivia answer
-    // For now, it does nothing or could show an error if not implemented
-    // Example: if (inputValue.toLowerCase() === "correct trivia answer") { setIsFlagModalOpen(true); } else { setError("Incorrect answer."); }
-    
-    // Since the old logic in handleChange might show the flag, this submit might be confusing
-    // We need the actual answer to implement this properly.
-    setError("Данный ответ не подходит."); 
+    // TODO: Implement actual answer checking for the trivia question.
+    // For now, the flag is triggered by the handleChange (overflow) logic.
+    // This submit function needs to be updated once the correct trivia answer and new flag are known.
+    // Example: if (inputValue.toLowerCase() === "actual_answer_to_trivia") { setIsFlagModalOpen(true); // and use new flag }
+    setError("Данный ответ не подходит. Возможно, есть другой способ получить флаг на этом уровне?"); 
   };
 
 
@@ -77,7 +80,7 @@ const Page = () => {
           40%, 60% { transform: translate3d(4px, 0, 0); }
         }
       `}</style>
-      <LevelHeader level={4} title="" icon={Bomb} /> {/* Icon might need changing for a trivia question */}
+      <LevelHeader level={4} title="" icon={Bomb} />
       <div className={`flex-grow flex items-center justify-center transition-all duration-500 ease-in-out ${isOverflowed ? 'scale-90' : 'scale-100'}`}>
         <Card className="w-full max-w-md shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
@@ -95,15 +98,15 @@ const Page = () => {
                   ref={inputRef}
                   type="text"
                   value={inputValue}
-                  onChange={handleChange} // Still uses the old handleChange for overflow
+                  onChange={handleChange}
                   placeholder="Enter Your Answer"
                   className="text-lg p-3 bg-input border-border focus:ring-accent"
                   aria-label="Answer"
-                  disabled={isOverflowed} // Still disabled if overflow triggered
+                  disabled={isOverflowed}
                 />
               </div>
               {error && <p className="text-destructive text-center font-medium animate-subtle-pulse">{error}</p>}
-              {isOverflowed && ( // This UI is for the OLD buffer overflow
+              {isOverflowed && (
                  <div className="p-4 bg-destructive/20 border border-destructive rounded-md text-center">
                     <AlertTriangle className="h-10 w-10 text-destructive mx-auto mb-2 animate-ping" />
                     <p className="text-destructive font-bold text-lg">SYSTEM STABILITY CRITICAL!</p>
@@ -124,7 +127,7 @@ const Page = () => {
       <FlagModal
         isOpen={isFlagModalOpen}
         onClose={() => setIsFlagModalOpen(false)}
-        flag={flag} // This is still the OLD flag
+        flag={flag} 
         nextLevelUrl="/level5"
       />
     </div>
