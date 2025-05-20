@@ -19,7 +19,7 @@ const LevelHeader: React.FC<LevelHeaderProps> = ({ level, title, icon: Icon }) =
           <circle cx="12" cy="12" r="3" fill="hsl(var(--accent))"/>
         </svg>
         <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-          WebWiz CTF
+          Untitled CTF
         </h1>
       </div>
       <div className="mt-4 flex items-center justify-center">

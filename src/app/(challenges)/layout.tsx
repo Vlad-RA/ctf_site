@@ -13,7 +13,7 @@ export default function ChallengesLayout({
         {children}
       </main>
       <footer className="text-center py-4 border-t border-border text-sm text-muted-foreground">
-        WebWiz CTF - Sharpen your web skills!
+        Untitled CTF - Sharpen your skills!
       </footer>
     </div>
   );

@@ -1,21 +1,21 @@
 import type {Metadata} from 'next';
-import { Geist, Geist_Mono } from 'next/font/google'; // Corrected import
+import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"; // Added Toaster import
+import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({ // Corrected instantiation
+const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({ // Corrected instantiation
+const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: 'WebWiz CTF',
-  description: 'A Capture The Flag challenge platform by Firebase Studio',
+  title: 'Untitled CTF',
+  description: 'A Capture The Flag challenge platform.',
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
-        <Toaster /> {/* Added Toaster */}
+        <Toaster />
       </body>
     </html>
   );
