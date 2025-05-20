@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import FlagModal from "@/components/ctf/FlagModal";
 // import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
-import { ShieldAlert, ExternalLink, Bug } from 'lucide-react';
+import { ShieldAlert, Bug } from 'lucide-react'; // ExternalLink removed
 import Link from 'next/link';
 
 const Page = () => {
@@ -51,11 +51,12 @@ const Page = () => {
           <CardContent className="space-y-6">
             <div className="p-4 bg-muted rounded-lg shadow-inner">
               <p className="text-lg text-foreground mb-3">
-                Examine the VirusTotal report for the following (simulated) sample:
+                Examine the VirusTotal report for the following (simulated) {' '}
+                <Link href={virusTotalLink} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline font-medium">
+                  sample
+                </Link>
+                :
               </p>
-              <Link href={virusTotalLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-full text-lg py-3 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-md font-medium group" >
-                View Simulated Report <ExternalLink className="ml-2 h-5 w-5 group-hover:text-accent transition-colors" />
-              </Link>
                {/* Note removed 
                <p className="text-xs text-muted-foreground mt-2 text-center">
                 (Note: For this challenge, you don't need to analyze a real file. The answer is based on the scenario.)
