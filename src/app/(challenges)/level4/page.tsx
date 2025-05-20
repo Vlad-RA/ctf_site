@@ -9,27 +9,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
-// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
-import { AlertTriangle, Bomb } from 'lucide-react';
+import { AlertTriangle, Bomb, Check } from 'lucide-react'; // Added Check
 
 const Page = () => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
-  const [isOverflowed, setIsOverflowed] = useState(false);
+  const [isOverflowed, setIsOverflowed] = useState(false); // This state is for the old buffer overflow logic
   const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
+  const [error, setError] = useState(""); // Added for new answer checking
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // This flag is for the OLD buffer overflow challenge.
   const flag = "flag{YezHapTGTouUAxjmBeTWovGMYCwndUjcaNCS}";
+  const newQuestion = "Which famous musical event, held annually in Europe, in the 1990s was unofficially nicknamed \"Buffer Overflow\" (BOF), due to the number of simultaneously broadcasting pirate radio stations on the air near the venue?";
 
+  // This handleChange is tied to the OLD buffer overflow logic.
+  // It will still trigger if more than 500 characters are entered.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
+    setError(""); // Clear error on new input
 
+    // Old buffer overflow logic - will still trigger the flag modal
     if (value.length > 500 && !isOverflowed) {
-      setIsOverflowed(true);
+      setIsOverflowed(true); // This state causes visual changes related to overflow
       setTimeout(() => {
-        setIsFlagModalOpen(true);
+        setIsFlagModalOpen(true); // Shows the OLD flag
       }, 500);
     } else if (value.length <= 500 && isOverflowed) {
       // setIsOverflowed(false); // Challenge implies one-way overflow
@@ -37,14 +43,25 @@ const Page = () => {
   };
   
   useEffect(() => {
+    // This effect is for the OLD buffer overflow visual feedback.
     if (isOverflowed) {
       document.body.classList.add('overflow-simulation-active');
       return () => document.body.classList.remove('overflow-simulation-active');
     }
   }, [isOverflowed]);
 
-  // const challengeDescription = "This challenge simulates a buffer overflow..."; // Removed
-  // const playerProgress = () => `Current input length: ${inputValue.length}`; // Removed
+  // Placeholder for new answer submission logic
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // This is where you'd check inputValue against the correct trivia answer
+    // For now, it does nothing or could show an error if not implemented
+    // Example: if (inputValue.toLowerCase() === "correct trivia answer") { setIsFlagModalOpen(true); } else { setError("Incorrect answer."); }
+    
+    // Since the old logic in handleChange might show the flag, this submit might be confusing
+    // We need the actual answer to implement this properly.
+    setError("Answer checking for this question is not yet implemented."); 
+  };
+
 
   return (
     <div className={`container mx-auto px-4 py-8 min-h-screen flex flex-col transition-opacity duration-500 ${isOverflowed ? 'opacity-20 filter blur-sm' : ''}`}>
@@ -60,35 +77,33 @@ const Page = () => {
           40%, 60% { transform: translate3d(4px, 0, 0); }
         }
       `}</style>
-      <LevelHeader level={4} title="" icon={Bomb} /> {/* Title removed */}
+      <LevelHeader level={4} title="" icon={Bomb} /> {/* Icon might need changing for a trivia question */}
       <div className={`flex-grow flex items-center justify-center transition-all duration-500 ease-in-out ${isOverflowed ? 'scale-90' : 'scale-100'}`}>
         <Card className="w-full max-w-md shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
+            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> 
             <CardDescription className="text-center text-muted-foreground pt-2">
-              {/* Description content removed */}
+              {newQuestion}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="bufferInput" className="text-lg text-foreground">Enter Value</Label>
+                <Label htmlFor="answerInput" className="text-lg text-foreground">Your Answer</Label>
                 <Input
-                  id="bufferInput"
+                  id="answerInput"
                   ref={inputRef}
                   type="text"
                   value={inputValue}
-                  onChange={handleChange}
-                  placeholder="Try entering a lot of text..."
+                  onChange={handleChange} // Still uses the old handleChange for overflow
+                  placeholder="Enter your answer"
                   className="text-lg p-3 bg-input border-border focus:ring-accent"
-                  aria-label="Value for buffer overflow simulation"
-                  disabled={isOverflowed}
+                  aria-label="Your Answer"
+                  disabled={isOverflowed} // Still disabled if overflow triggered
                 />
-                <p className="text-sm text-muted-foreground">
-                  Characters: {inputValue.length} / 500
-                </p>
               </div>
-              {isOverflowed && (
+              {error && <p className="text-destructive text-center font-medium animate-subtle-pulse">{error}</p>}
+              {isOverflowed && ( // This UI is for the OLD buffer overflow
                  <div className="p-4 bg-destructive/20 border border-destructive rounded-md text-center">
                     <AlertTriangle className="h-10 w-10 text-destructive mx-auto mb-2 animate-ping" />
                     <p className="text-destructive font-bold text-lg">SYSTEM STABILITY CRITICAL!</p>
@@ -96,25 +111,22 @@ const Page = () => {
                  </div>
               )}
               {!isOverflowed && (
-                <Button onClick={() => inputRef.current?.focus()} className="w-full text-lg py-3 bg-primary hover:bg-primary/90 text-primary-foreground" aria-label="Focus input">
-                  Prepare Input
+                <Button type="submit" className="w-full text-lg py-3 bg-primary hover:bg-primary/90 text-primary-foreground" aria-label="Submit Answer">
+                  <Check className="mr-2 h-5 w-5" /> Submit Answer
                 </Button>
               )}
-            </div>
+            </form>
           </CardContent>
           <CardFooter>
-            {/* Hint removed */}
           </CardFooter>
         </Card>
       </div>
       <FlagModal
         isOpen={isFlagModalOpen}
         onClose={() => setIsFlagModalOpen(false)}
-        flag={flag}
+        flag={flag} // This is still the OLD flag
         nextLevelUrl="/level5"
-        // title="Error: Buffer Overflow!" // Title removed from props
       />
-      {/* <HintSystem challengeDescription={challengeDescription} level={4} playerProgressProvider={playerProgress} /> Removed */}
     </div>
   );
 };
