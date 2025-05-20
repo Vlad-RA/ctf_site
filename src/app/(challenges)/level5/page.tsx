@@ -51,8 +51,8 @@ const Page = () => {
           <CardContent className="space-y-6">
             <div className="p-4 bg-muted rounded-lg shadow-inner">
               <p className="text-lg text-foreground mb-3">
-                Examine the VirusTotal report for the following (simulated) {' '}
-                <Link href={virusTotalLink} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline font-medium">
+                Examine the VirusTotal report for the following (simulated){' '}
+                <Link href={virusTotalLink} target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline font-medium">
                   sample
                 </Link>
                 :
@@ -100,3 +100,4 @@ const Page = () => {
 };
 
 export default Page;
+
