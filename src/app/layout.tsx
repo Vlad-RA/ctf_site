@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Untitled CTF',
-  description: 'A Capture The Flag challenge platform.',
+  title: 'PRTCL',
+  description: 'PRTCL Challenges.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
