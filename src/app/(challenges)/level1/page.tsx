@@ -9,9 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
-// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
-import { LogIn, FileCode } from 'lucide-react'; // Added FileCode import
+import { LogIn, FileCode } from 'lucide-react';
 
 const Page = () => {
   const router = useRouter();
@@ -26,30 +25,31 @@ const Page = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    // <!-- login: admin -->
-    // <!-- password: pa$$w0rd -->
+    // Developer note: The credentials below are intentionally in HTML comments on the page for the CTF challenge.
+    // Actual credentials to check against:
+    // login: admin
+    // password: pa$$w0rd
     if (username === "admin" && password === "pa$$w0rd") {
       setIsFlagModalOpen(true);
     } else {
-      setError("Invalid credentials."); // Simplified error
+      setError("Invalid credentials.");
     }
   };
 
-  // const challengeDescription = "The user needs to find credentials hidden somewhere on this page. The login form is right here, but where are the details to log in? Sometimes developers leave notes in unexpected places."; // Removed
-  // const playerProgress = () => `Attempted username: ${username}, Attempted password: ${password.length > 0 ? '******' : '(empty)'}`; // Removed
-
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
-      {/* These comments are part of the challenge */}
-      {/* login: admin */}
-      {/* password: pa$$w0rd */}
-      <LevelHeader level={1} title="" icon={FileCode} /> {/* Title removed */}
+      {/* These HTML comments are part of the challenge, findable in browser's "View Source" or "Inspect Element" */}
+      <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: `
+        <!-- login: admin -->
+        <!-- password: pa$$w0rd -->
+      ` }} />
+      
+      <LevelHeader level={1} title="" icon={FileCode} />
       <div className="flex-grow flex items-center justify-center">
         <Card className="w-full max-w-md shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
+            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle>
             <CardDescription className="text-center text-muted-foreground pt-2">
-              {/* Description content removed */}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -87,7 +87,6 @@ const Page = () => {
             </form>
           </CardContent>
           <CardFooter>
-            {/* Hint removed */}
           </CardFooter>
         </Card>
       </div>
@@ -97,7 +96,6 @@ const Page = () => {
         flag="flag{abcd//1234}"
         nextLevelUrl="/level2"
       />
-      {/* <HintSystem challengeDescription={challengeDescription} level={1} playerProgressProvider={playerProgress} /> Removed */}
     </div>
   );
 };
