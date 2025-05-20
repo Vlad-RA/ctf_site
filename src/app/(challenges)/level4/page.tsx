@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
-import HintSystem from "@/components/ctf/HintSystem";
+// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
 import { AlertTriangle, Bomb } from 'lucide-react';
 
@@ -28,28 +28,23 @@ const Page = () => {
 
     if (value.length > 500 && !isOverflowed) {
       setIsOverflowed(true);
-      // Delay showing the modal slightly to let the UI "break"
       setTimeout(() => {
         setIsFlagModalOpen(true);
       }, 500);
     } else if (value.length <= 500 && isOverflowed) {
-      // Optional: Reset if input becomes short again, though the challenge implies one-way overflow
-      // setIsOverflowed(false); 
+      // setIsOverflowed(false); // Challenge implies one-way overflow
     }
   };
   
   useEffect(() => {
     if (isOverflowed) {
-      // Add a class to body to visually "break" the page
       document.body.classList.add('overflow-simulation-active');
-      // Remove class on component unmount
       return () => document.body.classList.remove('overflow-simulation-active');
     }
   }, [isOverflowed]);
 
-
-  const challengeDescription = "This challenge simulates a buffer overflow. The user needs to input a very long string (more than 500 characters). When this happens, the page layout should break or content should be hidden, and an error-style modal with the flag should appear.";
-  const playerProgress = () => `Current input length: ${inputValue.length}`;
+  // const challengeDescription = "This challenge simulates a buffer overflow..."; // Removed
+  // const playerProgress = () => `Current input length: ${inputValue.length}`; // Removed
 
   return (
     <div className={`container mx-auto px-4 py-8 min-h-screen flex flex-col transition-opacity duration-500 ${isOverflowed ? 'opacity-20 filter blur-sm' : ''}`}>
@@ -65,13 +60,13 @@ const Page = () => {
           40%, 60% { transform: translate3d(4px, 0, 0); }
         }
       `}</style>
-      <LevelHeader level={4} title="System Overload" icon={Bomb} />
+      <LevelHeader level={4} title="" icon={Bomb} /> {/* Title removed */}
       <div className={`flex-grow flex items-center justify-center transition-all duration-500 ease-in-out ${isOverflowed ? 'scale-90' : 'scale-100'}`}>
         <Card className="w-full max-w-md shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center text-primary">Data Input Terminal</CardTitle>
+            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
             <CardDescription className="text-center text-muted-foreground pt-2">
-              Enter a value into the system. Be mindful of input limits.
+              {/* Description content removed */}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -108,9 +103,7 @@ const Page = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <p className="text-xs text-muted-foreground text-center w-full">
-              Hint: What happens when you give a system more data than it can handle?
-            </p>
+            {/* Hint removed */}
           </CardFooter>
         </Card>
       </div>
@@ -119,9 +112,9 @@ const Page = () => {
         onClose={() => setIsFlagModalOpen(false)}
         flag={flag}
         nextLevelUrl="/level5"
-        title="Error: Buffer Overflow!"
+        // title="Error: Buffer Overflow!" // Title removed from props
       />
-      <HintSystem challengeDescription={challengeDescription} level={4} playerProgressProvider={playerProgress} />
+      {/* <HintSystem challengeDescription={challengeDescription} level={4} playerProgressProvider={playerProgress} /> Removed */}
     </div>
   );
 };

@@ -9,10 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
-import HintSystem from "@/components/ctf/HintSystem";
+// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
 import { Globe, Search } from 'lucide-react';
-import Image from 'next/image';
+import Image from 'next/image'; // Image will be removed
 
 const Page = () => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const Page = () => {
   const [isFlagModalOpen, setIsFlagModalOpen] = useState(false);
   const answerRef = useRef<HTMLInputElement>(null);
 
-  const correctAnswer = "(92E0:D09:556?0:?D:56)"; // As specified
+  const correctAnswer = "(92E0:D09:556?0:?D:56)";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,34 +29,33 @@ const Page = () => {
     if (answer.trim() === correctAnswer) {
       setIsFlagModalOpen(true);
     } else {
-      setError("Incorrect answer. Your OSINT skills need a bit more sharpening!");
+      setError("Incorrect answer."); // Simplified error
     }
   };
   
   const osintQuestion = "This challenge involves a bit of Open Source Intelligence (OSINT). You're looking for a specific cryptic value. It's often associated with deep space observations and has a peculiar format including colons, question marks, and hexadecimal characters. What is this value?";
 
-  const challengeDescription = "This is an OSINT (Open Source Intelligence) challenge. The user needs to find an answer to a question using external resources. The question is: '" + osintQuestion + "'";
-  const playerProgress = () => `Attempted answer: ${answer}`;
+  // const challengeDescription = "This is an OSINT (Open Source Intelligence) challenge. The user needs to find an answer to a question using external resources. The question is: '" + osintQuestion + "'"; // Removed
+  // const playerProgress = () => `Attempted answer: ${answer}`; // Removed
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
-      <LevelHeader level={3} title="The OSINT Enigma" icon={Globe} />
+      <LevelHeader level={3} title="" icon={Globe} /> {/* Title removed */}
       <div className="flex-grow flex items-center justify-center">
         <Card className="w-full max-w-lg shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center text-primary">Intelligence Required</CardTitle>
+            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
             <CardDescription className="text-center text-muted-foreground pt-2">
-              The digital world is full of information. Can you find the answer?
+              {/* Description content removed */}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="p-4 bg-muted rounded-lg shadow-inner">
-              <p className="text-lg text-foreground mb-2">
-                <strong>Your Mission:</strong>
-              </p>
+              {/* "Your Mission" text removed for minimalism */}
               <p className="text-md text-foreground">
                 {osintQuestion}
               </p>
+              {/* Image removed for minimalism 
               <Image 
                 src="https://placehold.co/600x300.png" 
                 alt="Abstract representation of data or space" 
@@ -65,6 +64,7 @@ const Page = () => {
                 className="mt-4 rounded-md shadow-md object-cover w-full"
                 data-ai-hint="galaxy space"
               />
+              */}
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -87,9 +87,7 @@ const Page = () => {
             </form>
           </CardContent>
           <CardFooter>
-            <p className="text-xs text-muted-foreground text-center w-full">
-              Hint: Search engines are your friend. Think about specific keywords from the question.
-            </p>
+            {/* Hint removed */}
           </CardFooter>
         </Card>
       </div>
@@ -99,7 +97,7 @@ const Page = () => {
         flag={`flag{${correctAnswer}}`}
         nextLevelUrl="/level4"
       />
-      <HintSystem challengeDescription={challengeDescription} level={3} playerProgressProvider={playerProgress} />
+      {/* <HintSystem challengeDescription={challengeDescription} level={3} playerProgressProvider={playerProgress} /> Removed */}
     </div>
   );
 };

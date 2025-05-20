@@ -9,9 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
-import HintSystem from "@/components/ctf/HintSystem";
+// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
-import { FileCode, LogIn } from 'lucide-react';
+import { LogIn, FileCode } from 'lucide-react'; // Added FileCode import
 
 const Page = () => {
   const router = useRouter();
@@ -31,27 +31,25 @@ const Page = () => {
     if (username === "admin" && password === "pa$$w0rd") {
       setIsFlagModalOpen(true);
     } else {
-      setError("Invalid credentials. Did you check everywhere?");
+      setError("Invalid credentials."); // Simplified error
     }
   };
 
-  const challengeDescription = "The user needs to find credentials hidden somewhere on this page. The login form is right here, but where are the details to log in? Sometimes developers leave notes in unexpected places.";
-  const playerProgress = () => `Attempted username: ${username}, Attempted password: ${password.length > 0 ? '******' : '(empty)'}`;
-
+  // const challengeDescription = "The user needs to find credentials hidden somewhere on this page. The login form is right here, but where are the details to log in? Sometimes developers leave notes in unexpected places."; // Removed
+  // const playerProgress = () => `Attempted username: ${username}, Attempted password: ${password.length > 0 ? '******' : '(empty)'}`; // Removed
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
       {/* These comments are part of the challenge */}
       {/* login: admin */}
       {/* password: pa$$w0rd */}
-      <LevelHeader level={1} title="The Hidden Note" icon={FileCode} />
+      <LevelHeader level={1} title="" icon={FileCode} /> {/* Title removed */}
       <div className="flex-grow flex items-center justify-center">
         <Card className="w-full max-w-md shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center text-primary">Secure Portal Access</CardTitle>
+            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
             <CardDescription className="text-center text-muted-foreground pt-2">
-              Only authorized personnel may proceed.
-              Find the credentials to unlock the next level.
+              {/* Description content removed */}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -89,9 +87,7 @@ const Page = () => {
             </form>
           </CardContent>
           <CardFooter>
-            <p className="text-xs text-muted-foreground text-center w-full">
-              Hint: Web developers sometimes leave comments in the source code.
-            </p>
+            {/* Hint removed */}
           </CardFooter>
         </Card>
       </div>
@@ -101,7 +97,7 @@ const Page = () => {
         flag="flag{abcd//1234}"
         nextLevelUrl="/level2"
       />
-      <HintSystem challengeDescription={challengeDescription} level={1} playerProgressProvider={playerProgress} />
+      {/* <HintSystem challengeDescription={challengeDescription} level={1} playerProgressProvider={playerProgress} /> Removed */}
     </div>
   );
 };

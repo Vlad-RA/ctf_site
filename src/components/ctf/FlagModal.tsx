@@ -6,21 +6,21 @@ import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
+  // AlertDialogTitle, // Removed
+  // AlertDialogDescription, // Removed
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button"; // Not used directly
 import { useRouter } from "next/navigation";
-import { CheckCircle } from 'lucide-react';
+// import { CheckCircle } from 'lucide-react'; // Removed
 
 interface FlagModalProps {
   isOpen: boolean;
   onClose: () => void;
   flag: string;
   nextLevelUrl: string | null; // Null for the last level
-  title?: string;
+  title?: string; // Make title optional as it might not be used
 }
 
 const FlagModal: React.FC<FlagModalProps> = ({
@@ -28,7 +28,7 @@ const FlagModal: React.FC<FlagModalProps> = ({
   onClose,
   flag,
   nextLevelUrl,
-  title = "Challenge Solved!",
+  title, // Title is passed but not rendered in header
 }) => {
   const router = useRouter();
 
@@ -37,7 +37,6 @@ const FlagModal: React.FC<FlagModalProps> = ({
     if (nextLevelUrl) {
       router.push(nextLevelUrl);
     } else {
-      // Handle case for last level, e.g., redirect to congratulations or home
       router.push('/congratulations');
     }
   };
@@ -48,13 +47,7 @@ const FlagModal: React.FC<FlagModalProps> = ({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="bg-card border-border shadow-xl animate-slide-in">
         <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center text-2xl font-bold text-primary">
-            <CheckCircle className="w-8 h-8 mr-3 text-accent animate-subtle-pulse" />
-            {title}
-          </AlertDialogTitle>
-          <AlertDialogDescription className="text-muted-foreground pt-2 text-lg">
-            You've successfully found the flag:
-          </AlertDialogDescription>
+          {/* Title and Description removed to be minimal */}
         </AlertDialogHeader>
         <div className="my-6 p-4 bg-muted rounded-lg text-center">
           <p className="font-mono text-xl text-accent-foreground bg-accent py-3 px-2 rounded select-all break-all shadow-inner">
@@ -65,7 +58,7 @@ const FlagModal: React.FC<FlagModalProps> = ({
           <AlertDialogAction
             onClick={handleProceed}
             className="w-full bg-accent text-accent-foreground hover:bg-accent/90 text-lg py-3"
-            aria-label="Proceed to next level"
+            aria-label="Proceed" // Changed from "Proceed to next level"
           >
             OK
           </AlertDialogAction>
@@ -76,3 +69,4 @@ const FlagModal: React.FC<FlagModalProps> = ({
 };
 
 export default FlagModal;
+

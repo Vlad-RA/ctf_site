@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
-import HintSystem from "@/components/ctf/HintSystem";
+// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
 import { KeyRound, Inspect } from 'lucide-react';
 
@@ -28,25 +28,25 @@ const Page = () => {
     if (accessKey === correctAccessKey) {
       setIsFlagModalOpen(true);
     } else {
-      setError("Incorrect access key. Have you inspected all elements thoroughly?");
+      setError("Incorrect access key."); // Simplified error
     }
   };
 
-  const challengeDescription = "The user is looking for an access key. It's not always directly visible. Sometimes information is embedded in the page's structure, like in HTML attributes or class names.";
-  const playerProgress = () => `Attempted access key: ${accessKey}`;
+  // const challengeDescription = "The user is looking for an access key. It's not always directly visible. Sometimes information is embedded in the page's structure, like in HTML attributes or class names."; // Removed
+  // const playerProgress = () => `Attempted access key: ${accessKey}`; // Removed
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
-      <LevelHeader level={2} title="The Elusive Key" icon={Inspect} />
+      <LevelHeader level={2} title="" icon={Inspect} /> {/* Title removed */}
       <div className="flex-grow flex items-center justify-center">
         {/* This div contains the hidden access key in its class name */}
         <div className="accesskey-94831 w-0 h-0 overflow-hidden" aria-hidden="true"></div>
 
         <Card className="w-full max-w-md shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center text-primary">Access Protocol</CardTitle>
+            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
             <CardDescription className="text-center text-muted-foreground pt-2">
-              System integrity requires a valid access key. Locate it to proceed.
+              {/* Description content removed */}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -71,9 +71,7 @@ const Page = () => {
             </form>
           </CardContent>
           <CardFooter>
-            <p className="text-xs text-muted-foreground text-center w-full">
-              Hint: Sometimes, the most valuable things are hidden in plain sight, or rather, in the page's structure.
-            </p>
+            {/* Hint removed */}
           </CardFooter>
         </Card>
       </div>
@@ -83,7 +81,7 @@ const Page = () => {
         flag="flag{accesskey-94831}"
         nextLevelUrl="/level3"
       />
-      <HintSystem challengeDescription={challengeDescription} level={2} playerProgressProvider={playerProgress} />
+      {/* <HintSystem challengeDescription={challengeDescription} level={2} playerProgressProvider={playerProgress} /> Removed */}
     </div>
   );
 };

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import FlagModal from "@/components/ctf/FlagModal";
-import HintSystem from "@/components/ctf/HintSystem";
+// import HintSystem from "@/components/ctf/HintSystem"; // Removed
 import LevelHeader from "@/components/ctf/LevelHeader";
 import { ShieldAlert, ExternalLink, Bug } from 'lucide-react';
 import Link from 'next/link';
@@ -22,10 +22,7 @@ const Page = () => {
   const malwareNameRef = useRef<HTMLInputElement>(null);
 
   const correctMalwareName = "Trojan.Malware.300983.susgen";
-  // Example VirusTotal link. In a real scenario, this would be a carefully chosen link.
-  // For this simulation, the user just needs to know the name.
   const virusTotalLink = "https://www.virustotal.com/gui/file/e0b98009110010400100009e983200e9f/detection";
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,22 +30,22 @@ const Page = () => {
     if (malwareName.trim() === correctMalwareName) {
       setIsFlagModalOpen(true);
     } else {
-      setError("Incorrect malware name. Double-check the analysis report.");
+      setError("Incorrect malware name."); // Simplified error
     }
   };
 
-  const challengeDescription = "The user is presented with a (simulated) VirusTotal link and needs to identify a specific malware name from the 'report'. The challenge is to input the exact malware name: " + correctMalwareName;
-  const playerProgress = () => `Attempted malware name: ${malwareName}`;
+  // const challengeDescription = "The user is presented with a (simulated) VirusTotal link..."; // Removed
+  // const playerProgress = () => `Attempted malware name: ${malwareName}`; // Removed
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
-      <LevelHeader level={5} title="Threat Analysis" icon={Bug} />
+      <LevelHeader level={5} title="" icon={Bug} /> {/* Title removed */}
       <div className="flex-grow flex items-center justify-center">
         <Card className="w-full max-w-lg shadow-2xl animate-slide-in bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center text-primary">Malware Sample Analysis</CardTitle>
+            <CardTitle className="text-3xl font-bold text-center text-primary"></CardTitle> {/* Title content removed */}
             <CardDescription className="text-center text-muted-foreground pt-2">
-              A suspicious file has been uploaded to VirusTotal. Identify its classification.
+              {/* Description content removed */}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -59,9 +56,11 @@ const Page = () => {
               <Link href={virusTotalLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-full text-lg py-3 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-md font-medium group" >
                 View Simulated Report <ExternalLink className="ml-2 h-5 w-5 group-hover:text-accent transition-colors" />
               </Link>
+               {/* Note removed 
                <p className="text-xs text-muted-foreground mt-2 text-center">
                 (Note: For this challenge, you don't need to analyze a real file. The answer is based on the scenario.)
               </p>
+              */}
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -84,9 +83,7 @@ const Page = () => {
             </form>
           </CardContent>
           <CardFooter>
-            <p className="text-xs text-muted-foreground text-center w-full">
-              Hint: Malware names are often specific strings. Look for detection names provided by antivirus engines.
-            </p>
+            {/* Hint removed */}
           </CardFooter>
         </Card>
       </div>
@@ -96,7 +93,7 @@ const Page = () => {
         flag={`flag{${correctMalwareName}}`}
         nextLevelUrl="/level6"
       />
-      <HintSystem challengeDescription={challengeDescription} level={5} playerProgressProvider={playerProgress} />
+      {/* <HintSystem challengeDescription={challengeDescription} level={5} playerProgressProvider={playerProgress} /> Removed */}
     </div>
   );
 };
